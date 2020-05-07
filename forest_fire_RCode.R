@@ -2,7 +2,6 @@
 ###### Empirical Dataset 2: Forest Fire Data ########
 #####################################################
 
-library(fpc)
 library(dbscan)
 library(cluster)
 library(kernlab)
@@ -64,7 +63,8 @@ axis(1, at = seq(0, 510, by = 10))
 # We want to choose the epsilon at the 'elbow' point, approximately about 460.
 epsilon.value <- knn_matrix[460]
 
-dbscan.forest <- fpc::dbscan(forestFire, eps = epsilon.value, MinPts = 8)
+dbscan.forest <- dbscan::dbscan(forestFire, eps = epsilon.value, minPts = 8)
+
 dbscan.forest$cluster  # there are only two separate clusters
 
 # Our internal indices for the current dbscan partition.
@@ -78,18 +78,18 @@ par(mfrow=c(1,2))
 forestFireSubset <- dt[,c(9,10)]
 
 # when epsilon is smaller, there are too many small clusters
-db <- fpc::dbscan(forestFire, eps = 2, MinPts = 8)   
-plot(forestFireSubset$temp, forestFireSubset$RH, col = db$cluster+2, main="eps = 2", 
+db <- dbscan::dbscan(forestFire, eps = 2, minPts = 8)   
+plot(forestFireSubset$temp, forestFireSubset$RH, col = db$cluster+1, main="eps = 2", 
      xlab = 'temp', ylab = 'relative humidity', cex.lab=1.3, cex.main=1.4, cex.axis=1.3, pch = 20)
 
 # when epsilon is larger, almost all points are clustered together
-db <- fpc::dbscan(forestFire, eps = 8, MinPts = 8)   
-plot(forestFireSubset$temp, forestFireSubset$RH, col = db$cluster+1, main="eps = 8", 
+db <- dbscan::dbscan(forestFire, eps = 8, minPts = 8)   
+plot(forestFireSubset$temp, forestFireSubset$RH, col = db$cluster-1, main="eps = 8", 
      xlab = 'temp', ylab = 'relative humidity',  cex.lab=1.3, cex.main=1.4, cex.axis=1.3, pch = 20)
 
 
-
-
+db$cluster[db$cluster==1] <- 2
+db$cluster[db$cluster==0] <- 3
 
 
 #################################### Spectral 

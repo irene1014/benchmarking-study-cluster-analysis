@@ -3,7 +3,6 @@
 #####################################################
 
 library(cluster)
-library(fpc)
 library(dbscan)
 library(kernlab)
 library(MixGHD)
@@ -71,7 +70,7 @@ axis(1, at = seq(0, 30, by = 2))
 # We want to choose the epsilon at the 'elbow' point. There is no obvious one, so we approximate around 22.
 epsilon.value <- knn_matrix[22]
 
-dbscan.bike <- fpc::dbscan(bikeData, eps = epsilon.value, MinPts = 4)
+dbscan.bike <- dbscan::dbscan(bikeData, eps = epsilon.value, minPts = 4)
 dbscan.bike$cluster
 
 intCriteria(bikeData, as.integer(dbscan.bike$cluster), 'Calinski_Harabasz')$calinski_harabasz

@@ -2,7 +2,6 @@
 ####### Empirical Dataset 3: Airbnb Data #########
 #####################################################
 
-library(fpc)
 library(dbscan)
 library(kernlab)
 library(MixGHD)
@@ -85,7 +84,7 @@ axis(1, at = seq(0, 500, by = 10))
 # There is no obvious elbow point so we choose the value right before epsilon starts increasing quicker.
 epsilon.value <- knn_matrix[480]
 
-dbscan.airbnb <- fpc::dbscan(airbnb, eps = epsilon.value, MinPts = 4)
+dbscan.airbnb <- dbscan::dbscan(airbnb, eps = epsilon.value, minPts = 4)
 dbscan.airbnb$cluster
 
 plot(silhouette(x = dbscan.airbnb$cluster,dist = dist(airbnb)),main="DBSCAN Silhouette, eps=0.03",col="Blue")
