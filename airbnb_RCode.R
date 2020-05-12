@@ -5,6 +5,13 @@
 library(dbscan)
 library(kernlab)
 library(MixGHD)
+library(maps)
+library(ggplot2)
+library(ggmap)
+library(mapdata)
+library(clusterCrit)
+library(cluster)
+
 
 # data cleaning
 airbnbOriginal <- santaClaraAirbnb
@@ -149,20 +156,24 @@ spectral.airbnb<- specc(airbnb, centers=3)
 
 ###### Geographical Plots AND Comparison of Methods
 
+# Dataframe of Airbnb geographical locations
+locations <- data.frame("latitude" = airbnbSample$latitude, "longitude"= airbnbSample$longitude)
+bounds <- make_bbox(lat = latitude, lon = longitude, data = locations)
+mapType <- get_map(location = bounds, maptype = 'roadmap')
+colorScheme <- c('blue', 'red2', 'black')
+
 # kmeans result
-ggplot(data=airbnbSample, aes(x=longitude, y=latitude), xlab="longitude",ylab="latitude") + 
-  geom_point(color=kmeans.airbnb$cluster)+theme_classic() + 
-  theme(axis.title=element_text(size=14,face="bold"), axis.text.x = element_text(size = 15), axis.text.y = element_text(size = 15))
+kmeansDF = data.frame(locations, cluster = factor(kmeans.airbnb$cluster))
+ggmap(mapType) + geom_point(data = kmeansDF, mapping = aes(x = longitude, y = latitude, color = cluster)) + scale_colour_manual(values = colorScheme)
 
 # dbscan result
-ggplot(data=airbnbSample, aes(x=longitude, y=latitude), xlab="longitude",ylab="latitude") + 
-  geom_point(color=dbscan.airbnb$cluster+1)+theme_classic() + 
-  theme(axis.title=element_text(size=14,face="bold"), axis.text.x = element_text(size = 15), axis.text.y = element_text(size = 15))
+dbscanDF = data.frame(locations, cluster = factor(dbscan.airbnb$cluster))
+ggmap(mapType) + geom_point(data = dbscanDF, mapping = aes(x = longitude, y = latitude, color = cluster)) + scale_colour_manual(values = colorScheme)
 
 # spectral result
-ggplot(data=airbnbSample, aes(x=longitude, y=latitude), xlab="longitude",ylab="latitude") + 
-  geom_point(color=spectral.airbnb)+theme_classic() + 
-  theme(axis.title=element_text(size=14,face="bold"), axis.text.x = element_text(size = 15), axis.text.y = element_text(size = 15))
+spectralDF = data.frame(locations, cluster = factor(spectral.airbnb))
+ggmap(mapType) + geom_point(data = spectralDF, mapping = aes(x = longitude, y = latitude, color = cluster)) + scale_colour_manual(values = colorScheme)
+
 
 #ARI
 ARI(kmeans.airbnb$cluster,spectral.airbnb)
