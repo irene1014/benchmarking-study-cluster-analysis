@@ -159,7 +159,7 @@ spectral.airbnb<- specc(airbnb, centers=3)
 # Dataframe of Airbnb geographical locations
 locations <- data.frame("latitude" = airbnbSample$latitude, "longitude"= airbnbSample$longitude)
 bounds <- make_bbox(lat = latitude, lon = longitude, data = locations)
-mapType <- get_map(location = bounds, maptype = 'roadmap')
+mapType <- get_map(location = bounds, maptype = 'terrain')
 colorScheme <- c('blue', 'red2', 'black')
 
 # kmeans result
