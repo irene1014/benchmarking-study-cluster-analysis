@@ -1,6 +1,6 @@
 # Benchmarking in cluster analysis: a study on Spectral Clustering, DBSCAN, and K-means
 
-This repository includes the code and data which were used in our paper:
+This repository includes the code, data sets, and appendix which were used in our paper:
 
 Nivedha Murugesan, Irene Cho, and Cristina Tortora (2020) Benchmarking in cluster analysis: a study on Spectral Clustering, DBSCAN, and K-means. In Studies in Classification, Data Analysis, and Knowledge Organization, accepted.
 
